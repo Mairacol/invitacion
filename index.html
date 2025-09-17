@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Maira & Tomás — Invitación</title>
+  <meta name="description" content="Invitación web con cuenta regresiva, RSVP y canciones. 100% estática." />
+
+  <!-- Fuentes elegantes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:wght@400;500;600;700&family=Great+Vibes&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- AOS (Animate On Scroll) para efectos como el video -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css"/>
+
+  <style>
+    :root{
+      --bg:#f5efe9;      /* crema */
+      --paper:#fffdfb;   /* papel */
+      --ink:#2e2a26;     /* tinta */
+      --muted:#7a6f67;   /* café claro */
+      --line:#e7ded6;    /* líneas */
+      --accent:#b08a6b;  /* nude terracota */
+      --sage:#a5a58d;    /* verde salvia */
+      --gold:#c5a574;    /* dorado suave */
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    html{scroll-behavior:smooth}
+    body{margin:0; background:var(--bg); color:var(--ink); font-family:Inter,system-ui,Segoe UI,Roboto,Arial}
+
+    /* NAV superior minimal */
+    .nav{position:fixed; top:18px; left:50%; transform:translateX(-50%); z-index:50}
+    .nav .dock{display:flex; gap:10px; background:#ffffffcc; border:1px solid var(--line); border-radius:999px; padding:8px 12px; box-shadow:0 12px 28px rgba(46,42,38,.12)}
+    .nav a{padding:8px 12px; border-radius:999px; color:var(--ink); text-decoration:none; font-size:14px}
+    .nav a:hover{background:#fff}
+    .nav .cta{background:var(--accent); color:#fff; border:1px solid transparent}
+
+    /* SECCIONES a pantalla completa */
+    section.full{min-height:100svh; display:grid; place-items:center; padding:84px 22px 64px}
+
+    /* HERO */
+    .hero{position:relative; color:#fff; text-align:center; isolation:isolate}
+    .hero::before{content:""; position:absolute; inset:0; background:url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat; z-index:-2}
+    .hero::after{content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,.45), rgba(0,0,0,.25)); z-index:-1}
+    .hero .inner{max-width:900px}
+    .kicker{letter-spacing:.22em; text-transform:uppercase; font-size:12px; opacity:.9}
+    .names{font-family:"Playfair Display",serif; font-weight:600; font-size:clamp(44px,9vw,108px); margin:.2em 0 .1em}
+    .amp{font-family:"Great Vibes",cursive; color:var(--gold); font-size:1.1em}
+    .date{opacity:.95; font-size:clamp(14px,2.8vw,18px)}
+
+    /* CONTADOR estilo video */
+    .countdown{display:flex; gap:18px; justify-content:center; flex-wrap:wrap; margin:24px 0}
+    .dd{min-width:110px; text-align:center; padding:16px 12px; border-radius:16px; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.42); backdrop-filter:blur(4px)}
+    .num{font-family:"Cinzel",serif; font-size:40px; font-weight:600}
+    .lab{font-size:11px; letter-spacing:.18em; text-transform:uppercase; opacity:.9}
+
+    /* BLOQUES claros */
+    .paper{background:var(--paper); border:1px solid var(--line); border-radius:26px; padding:28px; width:min(1000px,92vw); box-shadow:0 18px 60px rgba(46,42,38,.08)}
+    h2{font-family:"Playfair Display",serif; font-weight:600; font-size:clamp(24px,5vw,34px); margin:0 0 10px}
+    p{margin:0}
+    .muted{color:var(--muted)}
+    .tags{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
+    .tag{display:inline-block; padding:8px 12px; border:1px solid var(--line); border-radius:999px; font-size:13px; color:var(--muted); background:#fff}
+
+    /* DOS COLUMNAS responsivo */
+    .grid{display:grid; gap:20px}
+    @media(min-width:900px){.grid{grid-template-columns:1.1fr 1fr}}
+
+    /* botones */
+    .actions{display:flex; gap:12px; flex-wrap:wrap; margin-top:14px; justify-content:center; align-items:center}
+    .btn{display:inline-flex; align-items:center; justify-content:center; padding:12px 20px; min-height:48px; line-height:1; border-radius:999px; border:1px solid var(--line); background:#fff; color:var(--ink); text-decoration:none; box-shadow:0 1px 0 rgba(0,0,0,.04); transform:translateY(0); transition:transform .08s ease}
+    .btn-prim{background:var(--accent); color:#fff; border-color:transparent; font-weight:700}
+
+    /* iframes */
+    iframe{width:100%; height:520px; border:1px solid var(--line); border-radius:18px; background:#fff}
+    /* Spotify helpers */
+    .spotify-tools{display:grid; gap:10px; grid-template-columns:1fr auto; margin-top:12px}
+    .spotify-tools input{padding:12px 14px; border:1px solid var(--line); border-radius:12px}
+    .spotify-note{color:var(--muted); font-size:12px; margin-top:6px}
+
+    /* FOOTER */
+    footer{text-align:center; color:var(--muted); font-size:12px; padding:22px 0 40px}
+  .map{position:relative}
+.map .gmap{width:100%; aspect-ratio:16/9; height:auto; min-height:320px; border:1px solid var(--line); border-radius:18px; background:#fff}
+.howto{margin-top:20px}
+.howto h3{font-family:"Playfair Display",serif;font-weight:600;font-size:24px;margin:0 0 14px}
+.howto .howto-grid{display:grid;gap:16px;grid-template-columns:1fr 1fr}
+@media(max-width:700px){.howto .howto-grid{grid-template-columns:1fr}}
+.card-lite{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:0 6px 16px rgba(46,42,38,.05)}
+.steps{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.step{display:flex;gap:10px;align-items:flex-start}
+.step .num{min-width:26px;height:26px;border-radius:999px;display:grid;place-items:center;background:var(--accent);color:#fff;font-weight:700;font-size:13px;margin-top:1px}
+.step .txt{line-height:1.5}
+.note{color:var(--muted);font-size:12px;margin-top:6px}
+.qrwrap{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.qr{width:140px;height:140px;border-radius:12px;border:1px solid var(--line);background:#fff}
+.share{display:flex;gap:8px;flex-wrap:wrap}
+.share a{display:inline-flex;align-items:center;gap:6px;padding:10px 14px;border-radius:999px;border:1px solid var(--line);text-decoration:none;color:var(--ink);background:#fff}
+.share a.whatsapp{background:#25D366;color:#fff;border-color:#25D366}
+.share svg{width:16px;height:16px}
+.acc{border-top:1px solid var(--line)}
+.acc-item{border-bottom:1px solid var(--line)}
+.acc-btn{width:100%; padding:14px 0; display:flex; justify-content:space-between; align-items:center; background:transparent; border:0; font:inherit; color:inherit; text-align:left}
+.acc-btn .tt{font-family:"Playfair Display",serif; font-weight:600}
+.acc-btn .chev{transition:transform .2s ease}
+.acc-panel{max-height:0; overflow:hidden; transition:max-height .25s ease}
+.acc-panel-inner{padding:0 0 12px 0; color:var(--muted)}
+.acc li{margin:6px 0}
+</style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav class="nav" aria-label="Atajos">
+    <div class="dock">
+      <a href="#sec-contador">Cuenta regresiva</a>
+      <a href="#sec-detalles">Detalles</a>
+      <a href="#sec-canciones">Canciones</a>
+      <a class="cta" href="#sec-rsvp">Confirmar</a>
+    </div>
+  </nav>
+
+  <!-- HERO pantalla completa -->
+  <section class="hero full" id="inicio">
+    <div class="inner" data-aos="fade-up">
+      <p class="kicker">Invitación</p>
+      <h1 class="names">Maira <span class="amp">&</span> Tomás</h1>
+      <p class="date">Sábado 20 de diciembre de 2025 · 15:00 · Zona Norte</p>
+
+      <div class="countdown" aria-live="polite">
+        <div class="dd" data-aos="zoom-in" data-aos-delay="150"><div class="num" id="cdD">00</div><div class="lab">Días</div></div>
+        <div class="dd" data-aos="zoom-in" data-aos-delay="250"><div class="num" id="cdH">00</div><div class="lab">Horas</div></div>
+        <div class="dd" data-aos="zoom-in" data-aos-delay="350"><div class="num" id="cdM">00</div><div class="lab">Min</div></div>
+        <div class="dd" data-aos="zoom-in" data-aos-delay="450"><div class="num" id="cdS">00</div><div class="lab">Seg</div></div>
+      </div>
+
+      <div class="actions" data-aos="fade-up" data-aos-delay="550">
+        <a class="btn" href="#sec-detalles">Cómo llegar</a>
+        <a class="btn" href="#sec-canciones">Canciones</a>
+        <a class="btn btn-prim" href="#sec-rsvp">Confirmar asistencia</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN CONTADOR (pantalla dedicada estilo video) -->
+  <section class="full" id="sec-contador">
+    <div class="paper" data-aos="fade-up">
+      <h2>Cuenta regresiva</h2>
+      <p class="muted">Falta muy poquito para celebrar juntos ✨</p>
+      <div class="countdown" style="margin-top:10px">
+        <div class="dd"><div class="num" id="cdD2">00</div><div class="lab">Días</div></div>
+        <div class="dd"><div class="num" id="cdH2">00</div><div class="lab">Horas</div></div>
+        <div class="dd"><div class="num" id="cdM2">00</div><div class="lab">Min</div></div>
+        <div class="dd"><div class="num" id="cdS2">00</div><div class="lab">Seg</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DETALLES + MAPA -->
+  <section class="full" id="sec-detalles">
+    <div class="paper grid" data-aos="fade-up">
+      <div>
+        <h2>Detalles</h2>
+        <p class="muted">Día de quinta: pileta, asado y música. Vení cómodo y con ganas de disfrutar.</p>
+        <div class="tags">
+          <span class="tag">Dress code: relajado · veraniego</span>
+          <span class="tag">Traé malla 🏖️</span>
+        </div>
+        <div class="actions" style="margin-top:14px">
+          <a class="btn" href="#sec-canciones">Sugerir canción</a>
+          <a class="btn btn-prim" href="#sec-rsvp">Confirmar</a>
+        </div>
+      </div>
+      <div>
+        <h2 style="margin-bottom:8px">Mapa</h2>
+<p class="muted" style="margin:0 0 8px">Tip: pegá el <b>iframe</b> desde Google Maps → Compartir → <i>Insertar un mapa</i>.</p>
+<div class="map">
+  <iframe class="gmap" title="Mapa" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3289.8377761771258!2d-58.96715962342334!3d-34.456265649727236!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bc82582b9b46d7%3A0x94eadb0ad4fdd446!2sLagos%20del%20Roc%C3%ADo!5e0!3m2!1ses-419!2sar!4v1758126265125!5m2!1ses-419!2sar"></iframe>
+</div>
+<div class="actions" style="margin-top:10px">
+  <a class="btn" target="_blank" rel="noopener" href="https://maps.google.com/?q=Quinta+El+Encuentro+Buenos+Aires">Abrir en Google Maps</a>
+</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CANCIONES -->
+  <section class="full" id="sec-canciones">
+    <div class="paper" data-aos="fade-up">
+      <h2>¿Qué canción no puede faltar?</h2>
+      <p class="muted" style="margin-bottom:8px">Podés escuchar la playlist y sugerir temas. Si tenés link de Spotify, mejor.</p>
+
+      <!-- Playlist oficial (Spotify) -->
+      <iframe title="Playlist Spotify" id="sp-official" style="border-radius:12px" height="352" src="https://open.spotify.com/embed/playlist/2iZBzl3QNiCb2oUMjQvK9U?utm_source=generator" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+      <!-- Botón para colaborar -->
+      <div class="actions" style="margin-top:10px">
+        <!-- Reemplazá HREF por tu link de invitación colaborativa de Spotify -->
+        <a class="btn btn-prim" id="sp-collab" href="https://open.spotify.com/playlist/2iZBzl3QNiCb2oUMjQvK9U?si=ca94b89a6bad4ac1&pt=c780cc33e29f16648c660bedee46967a" target="_blank" rel="noopener">Unite a la playlist (colaborativa)</a>
+      </div>
+      <div class="spotify-note">Para que funcione: marcá la playlist como <b>Colaborativa</b> en Spotify y compartí el <i>link de invitación</i>. El embed no permite agregar temas, pero desde el botón se abre la app/web y ya podés sumar canciones.</div>
+
+      <!-- Paso a paso para invitados -->
+      <section class="howto">
+        <h3>¿Cómo colaborar en la playlist?</h3>
+        <div class="acc" id="acc-howto">
+          <div class="acc-item">
+            <button class="acc-btn" type="button"><span class="tt">Desde el celular</span><span class="chev">▾</span></button>
+            <div class="acc-panel"><div class="acc-panel-inner">
+              <ol>
+                <li>Tocá <em>Unite a la playlist</em> y aceptá la invitación.</li>
+                <li>Buscá tu canción.</li>
+                <li>Menú <b>Agregar a playlist</b> → elegí nuestra playlist.</li>
+              </ol>
+            </div></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-btn" type="button"><span class="tt">Desde la compu</span><span class="chev">▾</span></button>
+            <div class="acc-panel"><div class="acc-panel-inner">
+              <ol>
+                <li>Click en <em>Unite a la playlist</em> (web/desktop) y aceptá.</li>
+                <li>Buscá el tema.</li>
+                <li>Clic derecho → <b>Agregar a playlist</b> → nuestra playlist.</li>
+              </ol>
+            </div></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-btn" type="button"><span class="tt">Link, QR y compartir</span><span class="chev">▾</span></button>
+            <div class="acc-panel"><div class="acc-panel-inner">
+              <div class="qrwrap" style="margin-top:6px">
+                <img class="qr" alt="QR playlist" src="https://chart.googleapis.com/chart?cht=qr&chs=220x220&chl=https%3A%2F%2Fopen.spotify.com%2Fplaylist%2F2iZBzl3QNiCb2oUMjQvK9U%3Fsi%3Dca94b89a6bad4ac1%26pt%3Dc780cc33e29f16648c660bedee46967a"/>
+                <div class="share">
+                  <a class="whatsapp" target="_blank" rel="noopener" href="https://wa.me/?text=Unite%20a%20nuestra%20playlist%20colaborativa%20%F0%9F%8E%B5%20https%3A%2F%2Fopen.spotify.com%2Fplaylist%2F2iZBzl3QNiCb2oUMjQvK9U%3Fsi%3Dca94b89a6bad4ac1%26pt%3Dc780cc33e29f16648c660bedee46967a">Compartir por WhatsApp</a>
+                  <button id="copy-howto" class="btn" type="button">Copiar instrucciones</button>
+                </div>
+              </div>
+              <p class="note">¿No te deja? Iniciá sesión y aceptá la invitación de vuelta. O dejá el link en el formulario.</p>
+            </div></div>
+          </div>
+        </div>
+      </section>
+      <div class="spotify-note">Reemplazá el <b>src</b> por el de tu playlist. En Spotify: Compartir → <i>Insertar</i>.</div>
+
+      <!-- Herramientas: buscar y previsualizar -->
+      <div class="spotify-tools">
+        <input id="sp-q" type="text" placeholder="Buscar en Spotify (ej: Coldplay - Yellow)" />
+        <a id="sp-search" class="btn" target="_blank" rel="noopener">Buscar</a>
+      </div>
+      <div class="spotify-tools">
+        <input id="sp-url" type="url" placeholder="Pegá un link de Spotify (tema / playlist / álbum)" />
+        <button id="sp-preview" class="btn" type="button">Previsualizar</button>
+      </div>
+      <div id="sp-preview-wrap" style="display:none; margin-top:10px">
+        <iframe id="sp-embed-dynamic" title="Vista previa Spotify" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+      </div>
+
+      <!-- Form de Sugerencias (reemplazar por Google Forms) -->
+      <h3 style="margin-top:16px">Dejá tu canción</h3>
+      <p class="muted" style="margin-bottom:8px">Si podés, pegá el link de Spotify en el formulario.</p>
+      <iframe title="Sugerir canción" srcdoc='\
+        <style>body{margin:0;display:grid;place-items:center;height:100%;background:#fff;color:#333;font-family:Inter,sans-serif} .hint{opacity:.7;padding:20px;text-align:center} code{background:#f5efe9;padding:2px 6px;border-radius:6px}</style>\
+        <div class="hint">Insertá el <b>iframe de Google Forms</b> para canciones (Enviar → &lt;&gt; Insertar).</div>'></iframe>
+    </div>
+  </section>
+
+  <!-- RSVP -->
+  <section class="full" id="sec-rsvp">
+    <div class="paper" data-aos="fade-up">
+      <h2>Confirmación de asistencia</h2>
+      <p class="muted" style="margin-bottom:8px">Confirmá antes del <strong>1 de diciembre</strong> así coordinamos todo 💚</p>
+      <!-- Reemplazá por el iframe de tu Google Form de RSVP -->
+      <iframe title="RSVP" srcdoc='\
+        <style>body{margin:0;display:grid;place-items:center;height:100%;background:#fff;color:#333;font-family:Inter,sans-serif} .hint{opacity:.7;padding:20px;text-align:center} code{background:#f5efe9;padding:2px 6px;border-radius:6px}</style>\
+        <div class="hint">Insertá el <b>iframe de Google Forms</b> de RSVP (Enviar → &lt;&gt; Insertar).</div>'></iframe>
+    </div>
+  </section>
+
+  <footer>
+    Hecho con ❤ · HTML/CSS/JS puro · Deploy estático (GitHub Pages / Netlify / Vercel)
+  </footer>
+
+  
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({ once:true, duration:700, easing:'ease-out-quart' });
+
+    // ===== FECHA/HORA EVENTO =====
+    const EVENT_DATE = new Date('2025-12-20T15:00:00');
+
+    const ids1 = {d: 'cdD', h: 'cdH', m: 'cdM', s: 'cdS'}; // hero
+    const ids2 = {d: 'cdD2', h: 'cdH2', m: 'cdM2', s: 'cdS2'}; // sección contador
+
+    function bind(ids){ return { d:document.getElementById(ids.d), h:document.getElementById(ids.h), m:document.getElementById(ids.m), s:document.getElementById(ids.s) }; }
+    const hero = bind(ids1); const sec = bind(ids2);
+    const pad = n => String(n).padStart(2,'0');
+
+    function updateAll(){
+      const diff = EVENT_DATE - new Date();
+      const done = diff <= 0;
+      const d = done ? 0 : Math.floor(diff/86400000);
+      const h = done ? 0 : Math.floor((diff%86400000)/3600000);
+      const m = done ? 0 : Math.floor((diff%3600000)/60000);
+      const s = done ? 0 : Math.floor((diff%60000)/1000);
+      [hero, sec].forEach(t=>{ if(!t.d) return; t.d.textContent=pad(d); t.h.textContent=pad(h); t.m.textContent=pad(m); t.s.textContent=pad(s); });
+    }
+    updateAll(); setInterval(updateAll, 1000);
+
+    // ===== Spotify helpers (frontend puro) =====
+    const $q = document.getElementById('sp-q');
+    const $search = document.getElementById('sp-search');
+    const $url = document.getElementById('sp-url');
+    const $prevBtn = document.getElementById('sp-preview');
+    const $wrap = document.getElementById('sp-preview-wrap');
+    const $iframe = document.getElementById('sp-embed-dynamic');
+
+    if ($search){
+      const go = ()=>{
+        const q = ($q?.value || '').trim();
+        $search.href = 'https://open.spotify.com/search/' + encodeURIComponent(q || '');
+      };
+      go();
+      $q?.addEventListener('input', go);
+    }
+
+    function toEmbedSrc(link){
+      if(!link) return '';
+      try{
+        const u = new URL(link);
+        if(u.hostname.includes('spotify.com')){
+          const parts = u.pathname.split('/').filter(Boolean); // ['track','ID']
+          const type = parts[0]; const id = parts[1];
+          if(['track','album','playlist','artist'].includes(type) && id){
+            return `https://open.spotify.com/embed/${type}/${id}`;
+          }
+        }
+      }catch(e){ return ''; }
+      return '';
+    }
+
+    $prevBtn?.addEventListener('click',()=>{
+      const src = toEmbedSrc(($url?.value||'').trim());
+      if(src){ $iframe.src = src; $wrap.style.display='block'; } else { alert('Pegá un link válido de Spotify (tema, playlist, álbum, artista).'); }
+    });
+    // Copiar instrucciones a portapapeles
+    (function(){
+      const btn = document.getElementById('copy-howto');
+      if(!btn) return;
+      const msg = `Cómo sumar tu canción a la playlist:
+1) Abrí este link e \"Unite a la playlist\": https://open.spotify.com/playlist/2iZBzl3QNiCb2oUMjQvK9U?si=ca94b89a6bad4ac1&pt=c780cc33e29f16648c660bedee46967a
+2) Buscá tu tema.
+3) En Spotify: Agregar a playlist → Nuestra Playlist.`;
+      btn.addEventListener('click', async ()=>{
+        try{ await navigator.clipboard.writeText(msg); btn.textContent='¡Instrucciones copiadas!'; setTimeout(()=>btn.textContent='Copiar instrucciones', 2000);}catch(e){ alert('No se pudo copiar. Copiá manualmente: '+msg); }
+      });
+    })();
+    // Acordeón minimal
+    (function(){
+      document.querySelectorAll('#acc-howto .acc-item').forEach(item=>{
+        const btn=item.querySelector('.acc-btn');
+        const panel=item.querySelector('.acc-panel');
+        const chev=item.querySelector('.chev');
+        btn.addEventListener('click',()=>{
+          const open=panel.style.maxHeight && panel.style.maxHeight!=='0px';
+          document.querySelectorAll('#acc-howto .acc-panel').forEach(p=>p.style.maxHeight='0');
+          document.querySelectorAll('#acc-howto .chev').forEach(c=>c.style.transform='rotate(0deg)');
+          if(!open){ panel.style.maxHeight=panel.scrollHeight+'px'; chev.style.transform='rotate(180deg)'; }
+        });
+      });
+    })();
+
+    // Copiar instrucciones a portapapeles
+    (function(){
+      const btn = document.getElementById('copy-howto');
+      if(!btn) return;
+      const msg = `Cómo sumar tu canción a la playlist:
+1) Abrí este link e \"Unite a la playlist\": https://open.spotify.com/playlist/2iZBzl3QNiCb2oUMjQvK9U?si=ca94b89a6bad4ac1&pt=c780cc33e29f16648c660bedee46967a
+2) Buscá tu tema.
+3) En Spotify: Agregar a playlist → Nuestra Playlist.`;
+      btn.addEventListener('click', async ()=>{
+        try{ await navigator.clipboard.writeText(msg); btn.textContent='¡Instrucciones copiadas!'; setTimeout(()=>btn.textContent='Copiar instrucciones', 2000);}catch(e){ alert('No se pudo copiar. Copiá manualmente: '+msg); }
+      });
+    })();
+  </script>
+</body>
+</html>
