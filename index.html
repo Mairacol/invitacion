@@ -229,6 +229,62 @@
 
   </div>
 </section>
+  <!-- AGENDAR -->
+  <section class="full" id="sec-agenda">
+    <div class="block" data-aos="fade-up">
+      <div class="paper">
+        <h2>Agendá el evento</h2>
+        <p class="muted" id="ev-date-pill" style="margin:6px 0 14px">Sáb 20 FEBRERO 2027 · 15:00–21:00 · Janos Bella Vista 2</p>
+        <div class="actions">
+          <a id="btn-gcal" class="link" target="_blank" rel="noopener">Añadir a Google Calendar</a>
+          <a id="btn-ics" class="link" download="Maira-Tomas.ics">Descargar .ics</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- RSVP -->
+  <section class="full" id="sec-rsvp">
+    <div class="block" data-aos="fade-up">
+      <h2>Confirmación de asistencia</h2>
+      <p class="muted" style="margin-bottom:10px">Confirmá antes del <strong>1 de diciembre</strong>.</p>
+      <div class="paper">
+       <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfU4xhMUCOqWwXVMRIz7rO9CM_Ksx0slcGCr5oZNnCr6J_fCw/viewform?embedded=true" width="640" height="849" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>
+      </div>
+    </div>
+  </section>
+   <!-- REGALOS -->
+  <section class="full" id="sec-regalos">
+    <div class="block" data-aos="fade-up">
+      <div class="gift-head">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M7 7h10l-3-4H10l-3 4Z" stroke-width="1.2"/><circle cx="12" cy="16" r="6.5" stroke-width="1.2"/></svg>
+        <h2 style="margin:0">Regalos</h2>
+      </div>
+      <p class="muted" style="text-align:center">Tu presencia es lo más importante ✨<br><span class="mini">Si querés colaborar, te dejamos nuestros datos.</span></p>
+
+      <div class="paper" style="margin-top:16px">
+        <div class="copyline">
+          <span class="mini">Alias</span>
+          <code id="alias-text" class="pill">MAIRAYTOMAS.BODA</code>
+          <button class="link" id="copy-alias" type="button">Copiar</button>
+        </div>
+        <hr class="hr-fine">
+        <div class="copyline">
+          <span class="mini">CBU</span>
+          <code id="cbu-text" class="pill">00000000-0000000000000000000000</code>
+          <button class="link" id="copy-cbu" type="button">Copiar</button>
+        </div>
+        <div class="hr-fine" style="margin-top:16px"></div>
+        <details class="qrwrap">
+          <summary class="link" style="list-style:none;cursor:pointer">Ver QR para transferir</summary>
+          <img class="qr" alt="QR de transferencia" loading="lazy"
+               src="https://chart.googleapis.com/chart?cht=qr&chs=280x280&chl=ALIAS%3AMAIRAYTOMAS.BODA%0ACBU%3A00000000-0000000000000000000000" />
+          <p class="mini" style="margin-top:6px">Tip: mantené presionado para guardar el QR.</p>
+        </details>
+      </div>
+      <div class="divider"></div>
+    </div>
+  </section>
+
   <!-- FOTOS (Drive) -->
   <section class="full" id="sec-fotos">
     <div class="block" data-aos="fade-up">
@@ -274,54 +330,6 @@
       </details>
     </div>
   </section>
-
-  <!-- REGALOS -->
-  <section class="full" id="sec-regalos">
-    <div class="block" data-aos="fade-up">
-      <div class="gift-head">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M7 7h10l-3-4H10l-3 4Z" stroke-width="1.2"/><circle cx="12" cy="16" r="6.5" stroke-width="1.2"/></svg>
-        <h2 style="margin:0">Regalos</h2>
-      </div>
-      <p class="muted" style="text-align:center">Tu presencia es lo más importante ✨<br><span class="mini">Si querés colaborar, te dejamos nuestros datos.</span></p>
-
-      <div class="paper" style="margin-top:16px">
-        <div class="copyline">
-          <span class="mini">Alias</span>
-          <code id="alias-text" class="pill">MAIRAYTOMAS.BODA</code>
-          <button class="link" id="copy-alias" type="button">Copiar</button>
-        </div>
-        <hr class="hr-fine">
-        <div class="copyline">
-          <span class="mini">CBU</span>
-          <code id="cbu-text" class="pill">00000000-0000000000000000000000</code>
-          <button class="link" id="copy-cbu" type="button">Copiar</button>
-        </div>
-        <div class="hr-fine" style="margin-top:16px"></div>
-        <details class="qrwrap">
-          <summary class="link" style="list-style:none;cursor:pointer">Ver QR para transferir</summary>
-          <img class="qr" alt="QR de transferencia" loading="lazy"
-               src="https://chart.googleapis.com/chart?cht=qr&chs=280x280&chl=ALIAS%3AMAIRAYTOMAS.BODA%0ACBU%3A00000000-0000000000000000000000" />
-          <p class="mini" style="margin-top:6px">Tip: mantené presionado para guardar el QR.</p>
-        </details>
-      </div>
-      <div class="divider"></div>
-    </div>
-  </section>
-
-  <!-- AGENDAR -->
-  <section class="full" id="sec-agenda">
-    <div class="block" data-aos="fade-up">
-      <div class="paper">
-        <h2>Agendá el evento</h2>
-        <p class="muted" id="ev-date-pill" style="margin:6px 0 14px">Sáb 20 FEBRERO 2027 · 15:00–21:00 · Janos Bella Vista 2</p>
-        <div class="actions">
-          <a id="btn-gcal" class="link" target="_blank" rel="noopener">Añadir a Google Calendar</a>
-          <a id="btn-ics" class="link" download="Maira-Tomas.ics">Descargar .ics</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- PLAYLIST -->
   <section class="full" id="sec-canciones">
     <div class="block" data-aos="fade-up">
@@ -333,18 +341,6 @@
       </div>
     </div>
   </section>
-
-  <!-- RSVP -->
-  <section class="full" id="sec-rsvp">
-    <div class="block" data-aos="fade-up">
-      <h2>Confirmación de asistencia</h2>
-      <p class="muted" style="margin-bottom:10px">Confirmá antes del <strong>1 de diciembre</strong>.</p>
-      <div class="paper">
-       <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfU4xhMUCOqWwXVMRIz7rO9CM_Ksx0slcGCr5oZNnCr6J_fCw/viewform?embedded=true" width="640" height="849" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>
-      </div>
-    </div>
-  </section>
-
   <footer>Hecho con ❤ — Deploy estático</footer>
 
   <!-- Toast + ToTop -->
