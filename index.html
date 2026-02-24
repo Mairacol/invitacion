@@ -356,10 +356,31 @@
     AOS.init({ once:true, duration:700, easing:'ease-out-quart' });
 
     // Menú hamburguesa
-    const burger = document.getElementById('burger');
-    const menu = document.getElementById('menu');
-    burger?.addEventListener('click', ()=> menu.classList.toggle('open'));
+// Menú hamburguesa
+const burger = document.getElementById('burger');
+const menu = document.getElementById('menu');
 
+// Función para alternar el menú
+const toggleMenu = () => menu.classList.toggle('open');
+
+burger?.addEventListener('click', (e) => {
+  e.stopPropagation(); // Evita que el clic se propague
+  toggleMenu();
+});
+
+// Cierra el menú al hacer clic en cualquier enlace
+document.querySelectorAll('.menu a').forEach(link => {
+  link.addEventListener('click', () => {
+    menu.classList.remove('open');
+  });
+});
+
+// Opcional: Cierra el menú si haces clic fuera de él
+document.addEventListener('click', (e) => {
+  if (menu.classList.contains('open') && !menu.contains(e.target) && e.target !== burger) {
+    menu.classList.remove('open');
+  }
+});
     // Countdown
     const EVENT_DATE = new Date('2027-02-20T18:00:00');
     const ids1 = {d:'cdD',h:'cdH',m:'cdM',s:'cdS'};
